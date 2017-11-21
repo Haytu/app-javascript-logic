@@ -35,7 +35,7 @@ var formule17 = "(¬(r∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))∧(t→(�
 var debut = 0;
 var nbCoup = -1;
 
-var formules = [formule, formule2, formule3, formule4, formule5, formule6, formule7,formule8, formule9,formule10];
+var formules = [formule14];
 
 function createDiv(type, contenu) {
     var div = document.createElement("div");
@@ -313,9 +313,11 @@ function commencer() {
 function check(event) {
     var target = event.target;
     var contenu = target.innerHTML;
-    target.setAttribute('ischecked', 1);
-    target.innerHTML = '<i class="material-icons green-text">check</i> ' + contenu;
-    chargerArbre(target);
+    if(target.getAttribute('ischecked') == 0){
+        target.setAttribute('ischecked', 1);
+        target.innerHTML = '<i class="material-icons green-text">check</i> ' + contenu;
+        chargerArbre(target);
+    }
 
     traiter(contenu);
 }
