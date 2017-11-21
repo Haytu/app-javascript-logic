@@ -1,4 +1,4 @@
-**ARBRA GAME
+**ARBRA GAME**
 
 Ce jeu développé en Javascript a pour thème la création des arbres en logique des propositions qui détermine si une formule donnée est insatisfiable.
 
