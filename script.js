@@ -1,14 +1,36 @@
-var formule = "(¬(p→((p→q)→q)))";
+//var formule = "(¬(p→((p→q)→q)))";
+//var formule2 = "(¬(p→((¬q)→(¬(p→q)))))";
+//var formule3 = "(p→((p→q)→q))";
+//var formule4 = "(¬(p→q))";
+//var formule5 = "(¬(p∨q))";
+//var formule6 = "(¬(p∧q))";
+//var formule7 = "(p∨q)";
+//var formule8 = "(p∧q)";
+//var formule9 = "(p→(q→r))";
+
+var formule1 = "(¬(p→((p→q)→q)))";
 var formule2 = "(¬(p→((¬q)→(¬(p→q)))))";
-var formule3 = "(p→((p→q)→q))";
-var formule4 = "(¬(p→q))";
-var formule5 = "(¬(p∨q))";
-var formule6 = "(¬(p∧q))";
-var formule7 = "(p∨q)";
-var formule8 = "(¬(p∧q))";
-var formule9 = "(p→(q→r))";
-var formule10="(¬((((s∧p)→(q∧r))∧((¬r)∨(¬q))∧p)∧(t∧(s→(¬t)))→(¬s)))";
-var formule11 ="";
+var formule3 = "(¬(((¬p)→(¬q))→(q→p)))";
+var formule4 = "(¬((p∧(p→q)∧((p→q)→r))→((p∧q)∧r)))"; // ATTENTION probleme: les ET ne sont pas écrits en ligne donc ca bloque la resolution
+var formule5 = "(¬((p→q)→((q→r)→(p→r))))";
+var formule6 = "(¬((((s∧p)→(q∧r))∧((¬r)∨(¬q))∧p)→(¬s)))"; //ATTENTION : pareil que la 4
+var formule7 = "(¬(((p→q)∧((r∧s)→p)∧(t→r)∧(s∧t))→q))"; //ATTENTION : pareil que la 4
+var formule8 = "(¬((p→(q→r))→((p→q)→(p→r))))";
+var formule9 = "(¬((q→p)→(((¬q)→p)→p)))"; //ATTENTION ? (¬(¬q)) ET (¬q) ne doivent-ils pas "s'annuler" à l'étape d'après ?
+var formule10 = "(¬(p→(q→r)→((p→r)∨(q→r))))"; //ATTENTION ? Qui est prioritaire dans p→q→r ( (p→q)→r ou p→(q→r) ???)
+var formule11 = "(¬(((p→r)∨(q→r))→(p→(q→r))))";
+var formule12 = "(¬((((p→q)∧(q→p))∨(p∧(¬q)))∨((¬p)∧q)))"; //ATTENTION jusqu'a maintenant on faisais (p∧q)∧r au lieu de p∧q∧r pour notre structure de données. Or ici, il faudrait (je pense) que ca se fasse en une etape et pas deux !
+var formule13 = "(¬((¬(a∧b))→((¬a)∨(¬b))))"; //ATTENTION ? pareil que 9
+var formule14 = "(¬(((¬a)∨(¬b))→(¬(a∧b))))";
+var formule15 = "(¬(((a∨b∨(¬c))∧(a∨b∨c)∧(a∨(¬b)))→a))"; //ATTENTION pareil que 12
+var formule16 = "(¬((u∧(w→v)∧(t→v)∧(u→(w∨t)))→v))"; //ATTENTION pareil que la 12
+var formule17 = "(¬(r∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))∧(t→(¬r))))"; //ATTENTION pareil que la 12; globalement, quand il y a 3 operandes : normal mais est-ce qu'on doit continuer à mettre des parenthèses?
+
+// ¬
+// ∨
+// ∧
+// →
+// (¬())
 
 var debut = 0;
 var nbCoup = -1;
