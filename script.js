@@ -1,13 +1,3 @@
-//var formule = "(¬(p→((p→q)→q)))";
-//var formule2 = "(¬(p→((¬q)→(¬(p→q)))))";
-//var formule3 = "(p→((p→q)→q))";
-//var formule4 = "(¬(p→q))";
-//var formule5 = "(¬(p∨q))";
-//var formule6 = "(¬(p∧q))";
-//var formule7 = "(p∨q)";
-//var formule8 = "(p∧q)";
-//var formule9 = "(p→(q→r))";
-
 var formule1 = "(¬(p→((p→q)→q)))";
 var formule2 = "(¬(p→((¬q)→(¬(p→q)))))";
 var formule3 = "(¬(((¬p)→(¬q))→(q→p)))";
@@ -25,6 +15,7 @@ var formule14 = "(¬(((¬a)∨(¬b))→(¬(a∧b))))";
 var formule15 = "(¬(((a∨b∨(¬c))∧(a∨b∨c)∧(a∨(¬b)))→a))"; //ATTENTION pareil que 12
 var formule16 = "(¬((u∧(w→v)∧(t→v)∧(u→(w∨t)))→v))"; //ATTENTION pareil que la 12
 var formule17 = "(¬(r∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))∧(t→(¬r))))"; //ATTENTION pareil que la 12; globalement, quand il y a 3 operandes : normal mais est-ce qu'on doit continuer à mettre des parenthèses?
+var formule18 = "(¬((p∨(q→(¬p)))∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))))"; //PAREIL
 
 // ¬
 // ∨
@@ -35,7 +26,7 @@ var formule17 = "(¬(r∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))∧(t→(�
 var debut = 0;
 var nbCoup = -1;
 
-var formules = [formule14];
+var formules = [formule];
 
 function createDiv(type, contenu) {
     var div = document.createElement("div");
