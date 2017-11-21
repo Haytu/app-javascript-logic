@@ -5,14 +5,15 @@ var formule4 = "(¬(p→q))";
 var formule5 = "(¬(p∨q))";
 var formule6 = "(¬(p∧q))";
 var formule7 = "(p∨q)";
-var formule8 = "(p∧q)";
-var formule9 = "(p→(q→r))"
-
+var formule8 = "(¬(p∧q))";
+var formule9 = "(p→(q→r))";
+var formule10="(¬((((s∧p)→(q∧r))∧((¬r)∨(¬q))∧p)∧(t∧(s→(¬t)))→(¬s)))";
+var formule11 ="";
 
 var debut = 0;
 var nbCoup = -1;
 
-var formules = [formule, formule2, formule3, formule4, formule5, formule6, formule7, formule8, formule9];
+var formules = [formule, formule2, formule3, formule4, formule5, formule6, formule7,formule8, formule9,formule10];
 
 function createDiv(type, contenu) {
     var div = document.createElement("div");
@@ -25,7 +26,7 @@ function createDiv(type, contenu) {
             h3.innerHTML = contenu;
             div.appendChild(h3);
             return div;
-            break;
+
         case "ouGauche" :
             div.setAttribute("class", "center col m6 etape");
             contenu = '/';
@@ -33,7 +34,7 @@ function createDiv(type, contenu) {
             h3.innerHTML = contenu;
             div.appendChild(h3);
             return div;
-            break;
+
         case "ouDroite" :
             div.setAttribute("class", "center col m6 etape");
             contenu = '\\';
@@ -41,7 +42,7 @@ function createDiv(type, contenu) {
             h3.innerHTML = contenu;
             div.appendChild(h3);
             return div;
-            break;
+
         case "newSF":
             div.setAttribute("class", "center col m12");
             h3.setAttribute("class", "sf");
@@ -50,7 +51,7 @@ function createDiv(type, contenu) {
             div.appendChild(h3);
             debut = 1;
             return div;
-            break;
+
         default:
 
     }
@@ -165,7 +166,6 @@ function chargerArbre(target) {
 }
 function verifierFin(div) {
     chargerArbre(div);
-    console.log("arbre vérifié",arbre);
     var historique  = chargerHistorique();
     for (var i = 0; i < historique.length; i++) {
         for (var j = 0; j < historique.length; j++) {
@@ -192,6 +192,7 @@ function scrollToBottom() {
 function afficherNbCoups() {
     nbCoups.innerHTML = nbCoup;
 }
+
 function structtostr(formule) {
     return JSON.stringify(formule).replace(/"/g, "").replace(/,/g, "").replace(/\[/g, "(").replace(/\]/g, ")");
 }
@@ -217,7 +218,6 @@ function strtostruct(formule) {
             }
         }
     }
-
     return JSON.parse(newFormule);
 }
 
@@ -294,8 +294,11 @@ function check(event) {
     target.setAttribute('ischecked', 1);
     target.innerHTML = '<i class="material-icons green-text">check</i> ' + contenu;
     chargerArbre(target);
+
     traiter(contenu);
 }
+
+
 
 function init() {
     var arbre = document.getElementById("arbre");
@@ -308,5 +311,5 @@ function init() {
     startBtn.addEventListener("click", function x() {
         traiter(formule);
     }, false);
-    restartBtn.addEventListener("click", afficheFormule, false);
+    restartBtn.addEventListener("click", function x() {location.reload();}, false);
 }
