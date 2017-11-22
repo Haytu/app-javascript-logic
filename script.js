@@ -213,7 +213,7 @@ function verifierFin(div) {
   for (var i = 0; i < historique.length; i++) {
     for (var j = 0; j < historique.length; j++) {
       if (historique[i].innerHTML == "(¬" + historique[j].innerHTML + ")") {
-        signalerFinBtn.innerHTML='<a class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">thumb_up</i></a>';
+        signalerFinBtn.innerHTML='<a class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons contradictionIcon">⊥</i></a>';
        arbre.className+= " cantClick red-text";
         return Materialize.toast("Bien joué, une contradiciton a été trouvée", 4000) // 4000 is the duration of the toast
       }
@@ -357,20 +357,32 @@ function check(event) {
 }
 
 function desactiveBranche(){
-  console.log(arbre);
   var elementsBranche = arbre.children; // tableau de l'ensemble des elements de la branche courante
   for(var i =1; i<elementsBranche.length;i++){
     if((elementsBranche[i].className !== "center col m12 etape") && (elementsBranche[i].className !== "center col m6 etape")){
+
       elementsBranche[i].className = "grey-text";
       if(elementsBranche[i].firstChild.className == 'btn-floating btn-large waves-effect waves-light orange'){
         elementsBranche[i].firstChild.className+=" grey";
     }
-    elementsBranche[i].firstChild.className+=" cantClick";
+    elementsBranche[i].className+=" cantClick";
 
   }
 }
 }
 
+function scrollToSf(){
+  var brancheActive =$("[class='btn-floating btn-large waves-effect waves-light orange']");
+  if(brancheActive.length > 0) {
+    var sf = brancheActive[0]; // la plus proche du bas de la page
+    while((sf.className !== "center col m12 etape") && (sf.className !== "center col m6 etape")){
+      sf = sf.parentNode;
+    }
+    console.log(sf);
+
+  return sf.scrollIntoView(false);
+  }
+}
 
 function init() {
   var arbre = document.getElementById("arbre");
@@ -380,6 +392,8 @@ function init() {
   var welcomeTxt = document.getElementById("welcomeTxt");
   var phraseNbCoups = document.getElementById("phraseNbCoups");
   var formule = afficheFormule();
+  var scrollBtn = document.getElementById("scrollBtn");
+  scrollBtn.addEventListener("click", scrollToSf);
   startBtn.addEventListener("click", commencer, false);
   startBtn.addEventListener("click", function x() {
     traiter(formule);

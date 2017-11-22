@@ -11,5 +11,19 @@ body{
 }
 
 .cantClick{
-  pointer-events: none; !important
+  pointer-events: none !important;
+}
+
+.contradictionIcon{
+  line-height: 40px !important;
+  font-size: 35px !important;
+
+}
+
+#scrollBtn{
+  position: fixed;
+    bottom: 0;
+    right: 0;
+    margin : 10px;
+
 }
