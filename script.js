@@ -60,7 +60,7 @@ function createDiv(type, contenu) {
 
     case "signalerFin" :
     div.setAttribute("class","center col m12");
-    div.innerHTML = '<a class="btn-floating btn-large waves-effect waves-light yellow"><i class="material-icons">close</i></a>';
+    div.innerHTML = '<a class="btn-floating btn-large waves-effect waves-light orange"><i class="material-icons">content_cut</i></a>';
     div.appendChild(h3);
     div.addEventListener("click", function x() { return verifierFin(div);});
     return div;
@@ -206,13 +206,15 @@ function chargerArbre(target) {
 
 }
 function verifierFin(div) {
-  console.log("verifierFin");
   chargerArbre(div);
+  var signalerFinBtn = arbre.lastChild;
+  console.log("btn signaler fin :", signalerFinBtn);
   var historique  = chargerHistorique();
   for (var i = 0; i < historique.length; i++) {
     for (var j = 0; j < historique.length; j++) {
       if (historique[i].innerHTML == "(¬" + historique[j].innerHTML + ")") {
-        return arbre.className+= " red-text";
+        signalerFinBtn.innerHTML='<a class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">thumb_up</i></a>';
+        return arbre.className+= " cantClick red-text";
       }
     }
   }

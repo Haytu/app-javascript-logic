@@ -12,5 +12,4 @@ body{
 
 .cantClick{
   pointer-events: none; !important
-  text.disabled = true; !important
 }
