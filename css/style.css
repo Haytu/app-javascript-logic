@@ -1,3 +1,16 @@
 .sf{
     cursor : pointer;
 }
+
+.branche{
+  color :  #795548;
+}
+
+body{
+  color : /*#689f38*/ white;
+}
+
+.cantClick{
+  pointer-events: none; !important
+  text.disabled = true; !important
+}

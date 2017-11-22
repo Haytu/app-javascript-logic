@@ -1,9 +1,12 @@
-**ARBRA GAME**
+****************ARBRA GAME*******************
 
-Ce jeu développé en Javascript a pour thème la création des arbres en logique des propositions qui détermine si une formule donnée est insatisfiable.
+Ce jeu développé en JAVASCRIPT a pour thème la création des arbres en logique qui détermine si une formule donné est
+valide ou insatisfiable.
 
+Les formules de ce jeu proviennent d'une liste de test.
 Pour la formule choisie, le jeu forme les sous-formules et les affiche pour que le joueur puisse trouver les contradictions le plus rapidement possible.
 
-Les formules de ce jeu proviennent d'une liste de tests.
+Trois développeurs talentueux travaillent sur ce projet.
 
-Développé par Mourad Inan, Clément Tassart et Solal Vernier dans le cadre de l'UE Logique des propositions.
+
+Par Mourad INAN / Clément TASSART / Solal VERNIER
