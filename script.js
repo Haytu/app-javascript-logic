@@ -214,11 +214,12 @@ function verifierFin(div) {
     for (var j = 0; j < historique.length; j++) {
       if (historique[i].innerHTML == "(¬" + historique[j].innerHTML + ")") {
         signalerFinBtn.innerHTML='<a class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons">thumb_up</i></a>';
-        return arbre.className+= " cantClick red-text";
+       arbre.className+= " cantClick red-text";
+        return Materialize.toast("Bien joué, une contradiciton a été trouvée", 4000) // 4000 is the duration of the toast
       }
     }
   }
-  return window.alert("Fausse alerte !");
+  return Materialize.toast("Il n'y a pas de contradiction ici !", 4000) // 4000 is the duration of the toast
 }
 function addEventListenerOnSfElements() {
   // Event listener sur les sf créées
@@ -343,7 +344,7 @@ function check(event) {
   var target = event.target;
   var contenu = target.innerHTML;
   if((contenu.length == 1) || (contenu.length == 4)){ // p ou (¬p)
-    console.log("Non cliquable"); // Une pop-up à pévoir ?
+    Materialize.toast('Formule non simplifiable !', 4000) // 4000 is the duration of the toast
   }
   else {
     console.log("formule cliquable");
@@ -361,7 +362,7 @@ function desactiveBranche(){
   for(var i =1; i<elementsBranche.length;i++){
     if((elementsBranche[i].className !== "center col m12 etape") && (elementsBranche[i].className !== "center col m6 etape")){
       elementsBranche[i].className = "grey-text";
-      if(elementsBranche[i].firstChild.className == 'btn-floating btn-large waves-effect waves-light yellow'){
+      if(elementsBranche[i].firstChild.className == 'btn-floating btn-large waves-effect waves-light orange'){
         elementsBranche[i].firstChild.className+=" grey";
     }
     elementsBranche[i].firstChild.className+=" cantClick";
