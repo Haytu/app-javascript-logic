@@ -23,6 +23,8 @@ var nbErreur =0; // compteur du nombre de tentative de contradiction échouée +
 
 var formules = [formule1,formule2,formule3,formule4,formule5,formule6,formule7,formule8,formule9,formule10,formule11,formule12,formule13,formule14,formule15,formule16,formule17]; // tableau contenant l'ensemble des formules à traiter
 
+var myAudio = new Audio('sounds/musique.mp3');
+
 function createDiv(type, contenu) {
   var div = document.createElement("div");
   var h3 = document.createElement("h3");
@@ -108,8 +110,6 @@ function ajouterEtape(operation, formule) {
     div.appendChild(sf2);
     div.appendChild(signalerFin);
   }
-  // Vérification de fin de branche
-  //verifierFin(div);
 }
 else if (operation === "ou") {
   nbCoup++;
@@ -145,8 +145,6 @@ divDroite.appendChild(sf2);
 divDroite.appendChild(signalerFin);
 
 }
-//verifierFin(divGauche);
-//verifierFin(divDroite);
 } else if (operation == "doubleNeg") {
   nbCoup++;
   var strform = structtostr(formule);
@@ -170,7 +168,6 @@ divDroite.appendChild(signalerFin);
   div.appendChild(sf);
   div.appendChild(signalerFin);
 }
-//verifierFin(div);
 }else if(operation == "multiEt"){
   var cpt =0;
   var div = createDiv("et");
@@ -191,8 +188,6 @@ divDroite.appendChild(signalerFin);
 div.appendChild(signalerFin);
 
 
-//verifierFin(div);
-
 }
 afficherNbCoups();
 addEventListenerOnSfElements();
@@ -201,7 +196,7 @@ scrollToElement(signalerFin);
 }
 
 function calculerScore(time){
-  var score = Math.trunc((1/(time*nbCoup))*10000);
+  var score = Math.trunc((1/(nbCoup+nbErreur+time))*100000);
   return score;
 }
 
@@ -209,6 +204,8 @@ function partieFinie(){
   var contradicitonNonFinies = [];
   contradicitonNonFinies =   $("[class='btn-floating btn-large waves-effect waves-light orange']");
   if(contradicitonNonFinies.length == 0) {
+    jouer_musique(stop);
+    success_son();
     $('#modal1').modal('open');
     var time = chronoStop();
     var score = calculerScore(time);
@@ -410,7 +407,7 @@ function desactiveBranche(){
 
 function scrollToSf(){
   var brancheActive =$("[class='btn-floating btn-large waves-effect waves-light orange']");
-
+  scroll_son();
   if(brancheActive.length > 0) {
     var sf = brancheActive[0]; // la plus proche du bas de la page
     return scrollToElement(sf);
@@ -457,22 +454,38 @@ function chronoStop(){
   return temps;
 }
 
-function jouer_musique(){
-    var myAudio = new Audio('sounds/musique.mp3');
+function jouer_musique(mode){
+  if(mode == undefined) mode = start;
+  if(mode == start){
     myAudio.addEventListener('ended', function() {
-        this.currentTime = 0;
-        this.play();
+      this.currentTime = 0;
+      this.play();
     }, false);
-    myAudio.play();}
+    myAudio.play();
+  }else if(mode == stop){
+    myAudio.pause();
+    
+  }
+}
 
 function mauvaise_reponse_son(){
-    var mauvaise_reponse_son = new Audio('sounds/wrong.ogg');
-    mauvaise_reponse_son.play();
+  var mauvaise_reponse_son = new Audio('sounds/wrong.ogg');
+  mauvaise_reponse_son.play();
 }
 
 function contradiction_son(){
-    var contradiction_son = new Audio('sounds/contradiction.ogg');
-    contradiction_son.play();
+  var contradiction_son = new Audio('sounds/contradiction.ogg');
+  contradiction_son.play();
+}
+
+function scroll_son(){
+  var scroll_son = new Audio('sounds/scroll.ogg');
+  scroll_son.play();
+}
+
+function success_son(){
+  var success_son = new Audio('sounds/success.ogg');
+  success_son.play();
 }
 
 function init() {

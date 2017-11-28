@@ -31,3 +31,7 @@ body{
 .findePartie .material-icons, .icon-text {
   vertical-align: middle;
 }
+
+.welcomePageBtn{
+  margin-top: 5% !important;
+}
