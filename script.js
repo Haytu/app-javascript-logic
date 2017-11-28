@@ -212,7 +212,7 @@ function partieFinie(){
     $('#modal1').modal('open');
     var time = chronoStop();
     var score = calculerScore(time);
-    var errorDiv = document.getElementById("error").innerHTML += nbErreur + " erreurs";
+    var errorDiv = document.getElementById("error").innerHTML += nbErreur + " erreur(s)";
     var scoreDiv = document.getElementById("score").innerHTML += score + " points";
     var timeDiv = document.getElementById("time").innerHTML+=time + " secondes";
     var coupDiv = document.getElementById("coup").innerHTML+= nbCoup +" coups";
@@ -245,12 +245,14 @@ function verifierFin(div) {
       if ((historique[i].innerHTML == "(¬" + historique[j].innerHTML + ")") && (historique[j].innerHTML.length == 1)) {
         signalerFinBtn.innerHTML='<a class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons contradictionIcon">⊥</i></a>';
         arbre.className+= " cantClick red-text";
+        contradiction_son();
         partieFinie();
         return Materialize.toast("Bien joué, une contradiciton a été trouvée", 4000) // 4000 is the duration of the toast
       }
     }
   }
   nbErreur++; // Si aucune contradiction de trouvée
+  mauvaise_reponse_son();
   Materialize.toast("Il n'y a pas de contradiction ici !", 4000) // 4000 is the duration of the toast
 }
 
@@ -380,6 +382,7 @@ function check(event) {
   if((contenu.length == 1) || (contenu.length == 4)){ // p ou (¬p)
     Materialize.toast('Formule non simplifiable !', 4000) // 4000 is the duration of the toast
     nbErreur++; // incrémente le nombre d'ereurs 
+    mauvaise_reponse_son();
   }
   else {
     target.setAttribute('ischecked', 1);
