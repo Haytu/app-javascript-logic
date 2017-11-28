@@ -454,7 +454,26 @@ function chronoStop(){
   return temps;
 }
 
+function jouer_musique(){
+    var myAudio = new Audio('sounds/musique.mp3');
+    myAudio.addEventListener('ended', function() {
+        this.currentTime = 0;
+        this.play();
+    }, false);
+    myAudio.play();}
+
+function mauvaise_reponse_son(){
+    var mauvaise_reponse_son = new Audio('sounds/wrong.ogg');
+    mauvaise_reponse_son.play();
+}
+
+function contradiction_son(){
+    var contradiction_son = new Audio('sounds/contradiction.ogg');
+    contradiction_son.play();
+}
+
 function init() {
+  jouer_musique();
   var arbre = document.getElementById("arbre");
   var startBtn = document.getElementById("start");
   var restartBtn = document.getElementById("restart");
