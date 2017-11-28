@@ -11,6 +11,10 @@
     <link rel="stylesheet" href="./css/style.css">
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--Import jQuery before materialize.js-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/materialize.min.js"></script>
+<script>$(document).ready(function(){$('.modal').modal(); });</script>
     <script src="./script.js"></script>
 </head>
 <body class="grey darken-3" onload="init()">
@@ -31,10 +35,7 @@
     </nav>
 </div>
 
-<!--Import jQuery before materialize.js-->
-<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="js/materialize.min.js"></script>
-<script>$(document).ready(function(){$('.modal').modal(); });</script>
+
 
 
 <div class="center white-text"><h1 id="welcomeTxt">Votre formule à traiter</h1></div>
@@ -57,13 +58,20 @@
   <div id="modal1" class="modal">
     <div class="modal-content green-text center">
       <h1>Partie terminée !</h1>
-      <ul class="black-text">
-        <li class="left" id="time"> <i class="material-icons left">access_time</i></li>
+      <div class="row black-text">
+      <ul class="black-text findePartie">
+        <div class="col m12 center"><h1 id="score"><i class="material-icons   yellow-text large">star</i></h1></div>
+        <div class="col m4 center"><h3 id="time"><i class=" medium material-icons   blue-text">access_time</i></h3></div>
+        <div class="col m4 center" ><h3 id="coup"><i class=" medium material-icons green-text">mouse</i></h3></div>
+        <div class="col m4 center"><h3 id="error"><i class=" medium material-icons  red-text">report</i></h3></div>
+ 
+
 
       </ul>
     </div>
+    </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    <a class="waves-effect waves-light btn green" id="newGame"><i class="material-icons right">replay</i>Rejouer</a>    
     </div>
   </div>
 </body>

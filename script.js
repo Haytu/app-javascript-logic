@@ -19,6 +19,7 @@ var formule17 = "(¬(r∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))∧(t→(�
 
 var debut = 0; // passe à 1 au premier choix d'une sous formule
 var nbCoup = -1; // compteur de nombre de choix de sous formule
+var nbErreur =0; // compteur du nombre de tentative de contradiction échouée + mauvais clics
 
 var formules = [formule1,formule2,formule3,formule4,formule5,formule6,formule7,formule8,formule9,formule10,formule11,formule12,formule13,formule14,formule15,formule16,formule17]; // tableau contenant l'ensemble des formules à traiter
 
@@ -97,7 +98,7 @@ function ajouterEtape(operation, formule) {
     } else {
       for (var i = 0; i < historique.length; i++) {
         if (historique[i].getAttribute("ischecked") == 0) { // Si la sous formule n'est pas checkée, on l'a raffiche
-        var sfHisto = createDiv("newSF", structtostr(historique[i].innerHTML));
+          var sfHisto = createDiv("newSF", structtostr(historique[i].innerHTML));
         div.appendChild(sfHisto);
       }
     }
@@ -118,7 +119,7 @@ else if (operation === "ou") {
   arbre.appendChild(divDroite);
 
   if (debut === 0) { // L'historique est vide = première étape
-  var sf1 = createDiv("newSF", strform1);
+    var sf1 = createDiv("newSF", strform1);
   divGauche.appendChild(sf1);
   divGauche.appendChild(signalerFin);
   signalerFin = createDiv("signalerFin");
@@ -129,7 +130,7 @@ else if (operation === "ou") {
 } else {
   for (var i = 0; i < historique.length; i++) { // Pour chaque sous formules enregistrées dans l'historique
   if (historique[i].getAttribute("ischecked") == 0) { // Si la sous formule n'est pas checkée, on l'a raffiche
-  var sfHisto = createDiv("newSF", structtostr(historique[i].innerHTML));
+    var sfHisto = createDiv("newSF", structtostr(historique[i].innerHTML));
   divGauche.appendChild(sfHisto);
   sfHisto = createDiv("newSF", structtostr(historique[i].innerHTML));
   divDroite.appendChild(sfHisto);
@@ -161,7 +162,7 @@ divDroite.appendChild(signalerFin);
   } else {
     for (var i = 0; i < historique.length; i++) {
       if (historique[i].getAttribute("ischecked") == 0) { // Si la sous formule n'est pas checkée, on l'a raffiche
-      var sfHisto = createDiv("newSF", structtostr(historique[i].innerHTML));
+        var sfHisto = createDiv("newSF", structtostr(historique[i].innerHTML));
       div.appendChild(sfHisto);
     }
   }
@@ -183,7 +184,7 @@ divDroite.appendChild(signalerFin);
   }
   for (var i = 0; i < historique.length; i++) {
     if (historique[i].getAttribute("ischecked") == 0) { // Si la sous formule n'est pas checkée, on l'a raffiche
-    var sfHisto = createDiv("newSF", structtostr(historique[i].innerHTML));
+      var sfHisto = createDiv("newSF", structtostr(historique[i].innerHTML));
     div.appendChild(sfHisto);
   }
 }
@@ -199,11 +200,22 @@ scrollToElement(signalerFin);
 
 }
 
+function calculerScore(time){
+  var score = Math.trunc((1/(time*nbCoup))*10000);
+  return score;
+}
+
 function partieFinie(){
   var contradicitonNonFinies = [];
   contradicitonNonFinies =   $("[class='btn-floating btn-large waves-effect waves-light orange']");
   if(contradicitonNonFinies.length == 0) {
-  $('#modal1').modal('open');
+    $('#modal1').modal('open');
+    var time = chronoStop();
+    var score = calculerScore(time);
+    var errorDiv = document.getElementById("error").innerHTML += nbErreur + " erreurs";
+    var scoreDiv = document.getElementById("score").innerHTML += score + " points";
+    var timeDiv = document.getElementById("time").innerHTML+=time + " secondes";
+    var coupDiv = document.getElementById("coup").innerHTML+= nbCoup +" coups";
   } 
 
 }
@@ -238,8 +250,10 @@ function verifierFin(div) {
       }
     }
   }
-  return Materialize.toast("Il n'y a pas de contradiction ici !", 4000) // 4000 is the duration of the toast
+  nbErreur++; // Si aucune contradiction de trouvée
+  Materialize.toast("Il n'y a pas de contradiction ici !", 4000) // 4000 is the duration of the toast
 }
+
 function addEventListenerOnSfElements() {
   // Event listener sur les sf créées
   var sf = document.getElementsByClassName("sf");
@@ -250,9 +264,10 @@ function addEventListenerOnSfElements() {
 function scrollToElement(element) {
   chargerArbre(element);
   arbre.scrollIntoView({ 
-  behavior: 'smooth' 
-});
+    behavior: 'smooth' 
+  });
 }
+
 function afficherNbCoups() {
   nbCoups.innerHTML = nbCoup;
 }
@@ -364,6 +379,7 @@ function check(event) {
   var contenu = target.innerHTML;
   if((contenu.length == 1) || (contenu.length == 4)){ // p ou (¬p)
     Materialize.toast('Formule non simplifiable !', 4000) // 4000 is the duration of the toast
+    nbErreur++; // incrémente le nombre d'ereurs 
   }
   else {
     target.setAttribute('ischecked', 1);
@@ -382,22 +398,19 @@ function desactiveBranche(){
       elementsBranche[i].className = "grey-text";
       if(elementsBranche[i].firstChild.className == 'btn-floating btn-large waves-effect waves-light orange'){
         elementsBranche[i].firstChild.className+=" grey";
-    }
-    elementsBranche[i].className+=" cantClick";
+      }
+      elementsBranche[i].className+=" cantClick";
 
+    }
   }
-}
 }
 
 function scrollToSf(){
   var brancheActive =$("[class='btn-floating btn-large waves-effect waves-light orange']");
+
   if(brancheActive.length > 0) {
     var sf = brancheActive[0]; // la plus proche du bas de la page
-    while((sf.className !== "center col m12 etape") && (sf.className !== "center col m6 etape")){
-      sf = sf.parentNode;
-    }
-
-  return sf.scrollIntoView(false);
+    return scrollToElement(sf);
   }
 }
 
@@ -408,37 +421,37 @@ var diff = 0;
 var timerID = 0;
 
 function chrono(){
-    end = new Date();
-    diff = end - start;
-    diff = new Date(diff);
-    var sec = diff.getSeconds();
-    var min = diff.getMinutes();
+  end = new Date();
+  diff = end - start;
+  diff = new Date(diff);
+  var sec = diff.getSeconds();
+  var min = diff.getMinutes();
 
-    if (min < 10){
-        min = "0" + min;
-    }
-    if (sec < 10){
-        sec = "0" + sec;
-    }
+  if (min < 10){
+    min = "0" + min;
+  }
+  if (sec < 10){
+    sec = "0" + sec;
+  }
 
-    document.getElementById("chronotime").innerHTML = min + ":" + sec;
-    timerID = setTimeout("chrono()", 10);
+  document.getElementById("chronotime").innerHTML = min + ":" + sec;
+  timerID = setTimeout("chrono()", 10);
 }
 
 function chronoStart(){
-    start = new Date();
-    chrono();
+  start = new Date();
+  chrono();
 }
 
 function chronoStop(){
-    end = new Date();
-    diff = end - start;
-    diff = new Date(diff);
-    var sec = diff.getSeconds();
-    var min = diff.getMinutes()*60;
-    var temps = min + sec;
-    clearTimeout(timerID);
-    return temps;
+  end = new Date();
+  diff = end - start;
+  diff = new Date(diff);
+  var sec = diff.getSeconds();
+  var min = diff.getMinutes()*60;
+  var temps = min + sec;
+  clearTimeout(timerID);
+  return temps;
 }
 
 function init() {
@@ -451,6 +464,8 @@ function init() {
   var phraseTemps = document.getElementById("phraseTemps");
   var formule = afficheFormule();
   var scrollBtn = document.getElementById("scrollBtn");
+  var newGameBtn = document.getElementById("newGame");
+  newGameBtn.addEventListener("click", function x() {location.reload();}, false);
   scrollBtn.addEventListener("click", scrollToSf);
   startBtn.addEventListener("click", commencer, false);
   startBtn.addEventListener("click", chronoStart, false);

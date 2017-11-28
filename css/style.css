@@ -1,5 +1,5 @@
 .sf{
-    cursor : pointer;
+  cursor : pointer;
 }
 
 .branche{
@@ -22,8 +22,12 @@ body{
 
 #scrollBtn{
   position: fixed;
-    bottom: 0;
-    right: 0;
-    margin : 10px;
+  bottom: 0;
+  right: 0;
+  margin : 10px;
 
+}
+
+.findePartie .material-icons, .icon-text {
+  vertical-align: middle;
 }
