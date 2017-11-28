@@ -337,6 +337,7 @@ function commencer() {
   document.getElementById("start").remove();
   document.getElementById("restart").remove();
   phraseNbCoups.innerHTML = "Nombre de coups";
+  phraseTemps.innerHTML = "Temps de jeu";
   welcomeTxt.remove();
 }
 
@@ -384,6 +385,46 @@ function scrollToSf(){
   }
 }
 
+var startTime = 0;
+var start = 0;
+var end = 0;
+var diff = 0;
+var timerID = 0;
+
+function chrono(){
+    end = new Date();
+    diff = end - start;
+    diff = new Date(diff);
+    var sec = diff.getSeconds();
+    var min = diff.getMinutes();
+
+    if (min < 10){
+        min = "0" + min;
+    }
+    if (sec < 10){
+        sec = "0" + sec;
+    }
+
+    document.getElementById("chronotime").innerHTML = min + ":" + sec;
+    timerID = setTimeout("chrono()", 10);
+}
+
+function chronoStart(){
+    start = new Date();
+    chrono();
+}
+
+function chronoStop(){
+    end = new Date();
+    diff = end - start;
+    diff = new Date(diff);
+    var sec = diff.getSeconds();
+    var min = diff.getMinutes()*60;
+    var temps = min + sec;
+    clearTimeout(timerID);
+    return temps;
+}
+
 function init() {
   var arbre = document.getElementById("arbre");
   var startBtn = document.getElementById("start");
@@ -391,10 +432,12 @@ function init() {
   var nbCoups = document.getElementById("nbCoups");
   var welcomeTxt = document.getElementById("welcomeTxt");
   var phraseNbCoups = document.getElementById("phraseNbCoups");
+  var phraseTemps = document.getElementById("phraseTemps");
   var formule = afficheFormule();
   var scrollBtn = document.getElementById("scrollBtn");
   scrollBtn.addEventListener("click", scrollToSf);
   startBtn.addEventListener("click", commencer, false);
+  startBtn.addEventListener("click", chronoStart, false);
   startBtn.addEventListener("click", function x() {
     traiter(formule);
   }, false);
