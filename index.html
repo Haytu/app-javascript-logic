@@ -32,6 +32,7 @@
 <!--Import jQuery before materialize.js-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="js/materialize.min.js"></script>
+<script>$(document).ready(function(){$('.modal').modal(); });</script>
 
 
 <div class="center white-text"><h1 id="welcomeTxt">Votre formule à traiter</h1></div>
@@ -40,7 +41,7 @@
     <div class="center"><h3 id="form"></h3></div>
 
     <div class="col m6 center" id="restart"><a class="waves-effect waves-light btn orange"><i
-            class="material-icons right">autorenew</i>Autre formule</a></div>
+            class="material-icons right">autorenew</i>Autre formule</a></div> 
 
     <div class="col m6 center" id="start"><a class="waves-effect waves-light btn green"><i class="material-icons right">send</i>Commencer</a>
     </div>
@@ -49,5 +50,19 @@
     </div>
 
 </div>
+
+  <!-- Modal Structure -->
+  <div id="modal1" class="modal">
+    <div class="modal-content green-text center">
+      <h1>Partie terminée !</h1>
+      <ul class="black-text">
+        <li class="left" id="time"> <i class="material-icons left">access_time</i></li>
+
+      </ul>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  </div>
 </body>
 </html>

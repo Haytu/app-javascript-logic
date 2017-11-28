@@ -12,9 +12,10 @@ var formule11 = "(¬(((p→r)∨(q→r))→(p→(q→r))))";
 var formule12 = "(¬((((p→q)∧(q→p))∨(p∧(¬q)))∨((¬p)∧q)))";
 var formule13 = "(¬((¬(a∧b))→((¬a)∨(¬b))))"; //ATTENTION ? pareil que 9
 var formule14 = "(¬(((¬a)∨(¬b))→(¬(a∧b))))";
-var formule15 = "(¬(((a∨b∨(¬c))∧(a∨b∨c)∧(a∨(¬b)))→a))";
+var formule15 = "(¬((((a∨b)∨(¬c))∧((a∨b)∨c)∧(a∨(¬b)))→a))";
 var formule16 = "(¬((u∧(w→v)∧(t→v)∧(u→(w∨t)))→v))";
 var formule17 = "(¬(r∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))∧(t→(¬r))))";
+
 
 var debut = 0; // passe à 1 au premier choix d'une sous formule
 var nbCoup = -1; // compteur de nombre de choix de sous formule
@@ -60,7 +61,7 @@ function createDiv(type, contenu) {
 
     case "signalerFin" :
     div.setAttribute("class","center col m12");
-    div.innerHTML = '<a class="btn-floating btn-large waves-effect waves-light orange"><i class="material-icons">content_cut</i></a>';
+    div.innerHTML = '<a class="btn-floating btn-large waves-effect waves-light orange"><i class="material-icons contradictionIcon">⊥</i></a>';
     div.appendChild(h3);
     div.addEventListener("click", function x() { return verifierFin(div);});
     return div;
@@ -84,11 +85,15 @@ function ajouterEtape(operation, formule) {
     var div = createDiv("et");
     arbre.appendChild(div);
 
+
     if (debut === 0) { // première étape
       var sf1 = createDiv("newSF", strform1);
       div.appendChild(sf1);
+
       var sf2 = createDiv("newSF", strform2);
       div.appendChild(sf2);
+      div.appendChild(signalerFin);
+
     } else {
       for (var i = 0; i < historique.length; i++) {
         if (historique[i].getAttribute("ischecked") == 0) { // Si la sous formule n'est pas checkée, on l'a raffiche
@@ -115,8 +120,12 @@ else if (operation === "ou") {
   if (debut === 0) { // L'historique est vide = première étape
   var sf1 = createDiv("newSF", strform1);
   divGauche.appendChild(sf1);
+  divGauche.appendChild(signalerFin);
+  signalerFin = createDiv("signalerFin");
+
   var sf2 = createDiv("newSF", strform2);
   divDroite.appendChild(sf2);
+  divDroite.appendChild(signalerFin);
 } else {
   for (var i = 0; i < historique.length; i++) { // Pour chaque sous formules enregistrées dans l'historique
   if (historique[i].getAttribute("ischecked") == 0) { // Si la sous formule n'est pas checkée, on l'a raffiche
@@ -143,6 +152,8 @@ divDroite.appendChild(signalerFin);
 
   var div = createDiv("et");
   arbre.appendChild(div);
+  div.appendChild(signalerFin);
+
 
   if (debut === 0) { // première étape
     var sf = createDiv("newSF", strform);
@@ -184,8 +195,16 @@ div.appendChild(signalerFin);
 }
 afficherNbCoups();
 addEventListenerOnSfElements();
-scrollToBottom();
+scrollToElement(signalerFin);
 
+}
+
+function partieFinie(){
+  var contradicitonNonFinies = [];
+  contradicitonNonFinies =   $("[class='btn-floating btn-large waves-effect waves-light orange']");
+  if(contradicitonNonFinies.length == 0) {
+  $('#modal1').modal('open');
+  } 
 
 }
 
@@ -208,13 +227,13 @@ function chargerArbre(target) {
 function verifierFin(div) {
   chargerArbre(div);
   var signalerFinBtn = arbre.lastChild;
-  console.log("btn signaler fin :", signalerFinBtn);
   var historique  = chargerHistorique();
   for (var i = 0; i < historique.length; i++) {
     for (var j = 0; j < historique.length; j++) {
-      if (historique[i].innerHTML == "(¬" + historique[j].innerHTML + ")") {
+      if ((historique[i].innerHTML == "(¬" + historique[j].innerHTML + ")") && (historique[j].innerHTML.length == 1)) {
         signalerFinBtn.innerHTML='<a class="btn-floating btn-large waves-effect waves-light green"><i class="material-icons contradictionIcon">⊥</i></a>';
-       arbre.className+= " cantClick red-text";
+        arbre.className+= " cantClick red-text";
+        partieFinie();
         return Materialize.toast("Bien joué, une contradiciton a été trouvée", 4000) // 4000 is the duration of the toast
       }
     }
@@ -228,12 +247,11 @@ function addEventListenerOnSfElements() {
     sf[i].addEventListener("click", check);
   }
 }
-function scrollToBottom() {
-  window.scroll({
-    top: document.body.scrollHeight,
-    left: 0,
-    behavior: 'smooth'
-  });
+function scrollToElement(element) {
+  chargerArbre(element);
+  arbre.scrollIntoView({ 
+  behavior: 'smooth' 
+});
 }
 function afficherNbCoups() {
   nbCoups.innerHTML = nbCoup;
@@ -347,7 +365,6 @@ function check(event) {
     Materialize.toast('Formule non simplifiable !', 4000) // 4000 is the duration of the toast
   }
   else {
-    console.log("formule cliquable");
     target.setAttribute('ischecked', 1);
     target.innerHTML = '<i class="material-icons green-text">check</i> ' + contenu;
     chargerArbre(target); // attribue à la variable arbre la div mère de la branche courante (sur celle où on a cliqué)
@@ -378,7 +395,6 @@ function scrollToSf(){
     while((sf.className !== "center col m12 etape") && (sf.className !== "center col m6 etape")){
       sf = sf.parentNode;
     }
-    console.log(sf);
 
   return sf.scrollIntoView(false);
   }
