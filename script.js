@@ -6,22 +6,22 @@ var formule5 = "(¬((p→q)→((q→r)→(p→r))))";
 var formule6 = "(¬((((s∧p)→(q∧r))∧((¬r)∨(¬q))∧p)→(¬s)))";
 var formule7 = "(¬(((p→q)∧((r∧s)→p)∧(t→r)∧(s∧t))→q))";
 var formule8 = "(¬((p→(q→r))→((p→q)→(p→r))))";
-var formule9 = "(¬((q→p)→(((¬q)→p)→p)))"; //ATTENTION ? (¬(¬q)) ET (¬q) ne doivent-ils pas "s'annuler" à l'étape d'après ?
+var formule9 = "(¬((q→p)→(((¬q)→p)→p)))";
 var formule10 = "(¬((p→(q→r))→((p→r)∨(q→r))))";
 var formule11 = "(¬(((p→r)∨(q→r))→(p→(q→r))))";
 var formule12 = "(¬((((p→q)∧(q→p))∨(p∧(¬q)))∨((¬p)∧q)))";
-var formule13 = "(¬((¬(a∧b))→((¬a)∨(¬b))))"; //ATTENTION ? pareil que 9
+var formule13 = "(¬((¬(a∧b))→((¬a)∨(¬b))))";
 var formule14 = "(¬(((¬a)∨(¬b))→(¬(a∧b))))";
 var formule15 = "(¬((((a∨b)∨(¬c))∧((a∨b)∨c)∧(a∨(¬b)))→a))";
 var formule16 = "(¬((u∧(w→v)∧(t→v)∧(u→(w∨t)))→v))";
 var formule17 = "(¬(r∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))∧(t→(¬r))))";
-
+var formule18 = "(¬(((p→(q→r))→((p→r)∨(q→r)))→((¬((¬q)→(¬p)))∨((¬q)∨q))))";
 
 var debut = 0; // passe à 1 au premier choix d'une sous formule
 var nbCoup = -1; // compteur de nombre de choix de sous formule
 var nbErreur =0; // compteur du nombre de tentative de contradiction échouée + mauvais clics
 
-var formules = [formule1,formule2,formule3,formule4,formule5,formule6,formule7,formule8,formule9,formule10,formule11,formule12,formule13,formule14,formule15,formule16,formule17]; // tableau contenant l'ensemble des formules à traiter
+var formules = [formule1, formule2, formule3, formule4, formule5, formule6, formule7, formule8, formule9, formule10, formule11, formule12, formule13, formule14, formule15, formule16, formule17, formule18]; // tableau contenant l'ensemble des formules à traiter
 
 var myAudio = new Audio('sounds/musique.mp3');
 
@@ -244,7 +244,7 @@ function verifierFin(div) {
         arbre.className+= " cantClick red-text";
         contradiction_son();
         partieFinie();
-        return Materialize.toast("Bien joué, une contradiciton a été trouvée", 4000) // 4000 is the duration of the toast
+        return Materialize.toast("Bien joué, une contradiciton a été trouvée", 2000) // 2000 is the duration of the toast
       }
     }
   }
