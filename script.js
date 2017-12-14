@@ -1,29 +1,30 @@
 var formule1 = "(¬(p→((p→q)→q)))";
 var formule2 = "(¬(p→((¬q)→(¬(p→q)))))";
 var formule3 = "(¬(((¬p)→(¬q))→(q→p)))";
-var formule4 = "(¬((p∧(p→q)∧((p→q)→r))→((p∧q)∧r)))";
+//var formule4 = "(¬((p∧(p→q)∧((p→q)→r))→((p∧q)∧r)))";
 var formule5 = "(¬((p→q)→((q→r)→(p→r))))";
 var formule6 = "(¬((((s∧p)→(q∧r))∧((¬r)∨(¬q))∧p)→(¬s)))";
-var formule7 = "(¬(((p→q)∧((r∧s)→p)∧(t→r)∧(s∧t))→q))";
+//var formule7 = "(¬(((p→q)∧((r∧s)→p)∧(t→r)∧(s∧t))→q))";
 var formule8 = "(¬((p→(q→r))→((p→q)→(p→r))))";
 var formule9 = "(¬((q→p)→(((¬q)→p)→p)))";
 var formule10 = "(¬((p→(q→r))→((p→r)∨(q→r))))";
 var formule11 = "(¬(((p→r)∨(q→r))→(p→(q→r))))";
-var formule12 = "(¬((((p→q)∧(q→p))∨(p∧(¬q)))∨((¬p)∧q)))";
+//var formule12 = "(¬((((p→q)∧(q→p))∨(p∧(¬q)))∨((¬p)∧q)))";
 var formule13 = "(¬((¬(a∧b))→((¬a)∨(¬b))))";
-var formule14 = "(¬(((¬a)∨(¬b))→(¬(a∧b))))";
-var formule15 = "(¬((((a∨b)∨(¬c))∧((a∨b)∨c)∧(a∨(¬b)))→a))";
-var formule16 = "(¬((u∧(w→v)∧(t→v)∧(u→(w∨t)))→v))";
-var formule17 = "(¬(r∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))∧(t→(¬r))))";
-var formule18 = "(¬(((p→(q→r))→((p→r)∨(q→r)))→((¬((¬q)→(¬p)))∨((¬q)∨q))))";
+//var formule14 = "(¬(((¬a)∨(¬b))→(¬(a∧b))))";
+//var formule15 = "(¬((((a∨b)∨(¬c))∧((a∨b)∨c)∧(a∨(¬b)))→a))";
+//var formule16 = "(¬((u∧(w→v)∧(t→v)∧(u→(w∨t)))→v))";
+//var formule17 = "(¬(r∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))∧(t→(¬r))))";
+//var formule18 = "(¬(((p→(q→r))→((p→r)∨(q→r)))→((¬((¬q)→(¬p)))∨((¬q)∨q))))";
 
 var debut = 0; // passe à 1 au premier choix d'une sous formule
 var nbCoup = -1; // compteur de nombre de choix de sous formule
-var nbErreur =0; // compteur du nombre de tentative de contradiction échouée + mauvais clics
+var nbErreur = 0; // compteur du nombre de tentative de contradiction échouée + mauvais clics
 
-var formules = [formule1, formule2, formule3, formule4, formule5, formule6, formule7, formule8, formule9, formule10, formule11, formule12, formule13, formule14, formule15, formule16, formule17, formule18]; // tableau contenant l'ensemble des formules à traiter
+var formules = [formule1, formule2, formule3, /*formule4,*/ formule5, formule6, /*formule7,*/ formule8, formule9, formule10, formule11, /*formule12,*/ formule13/*, formule14, formule15, formule16, formule17, formule18*/]; // tableau contenant l'ensemble des formules à traiter
 
-var myAudio = new Audio('sounds/musique.mp3');
+var myAudio = new Audio('sounds/musique.mp3'); /* Musique d'ambiance */
+myAudio.volume = 2.0;
 
 function createDiv(type, contenu) {
   var div = document.createElement("div");
@@ -213,7 +214,7 @@ function partieFinie(){
     var scoreDiv = document.getElementById("score").innerHTML += score + " points";
     var timeDiv = document.getElementById("time").innerHTML+=time + " secondes";
     var coupDiv = document.getElementById("coup").innerHTML+= nbCoup +" coups";
-  } 
+  }
 
 }
 
@@ -262,8 +263,8 @@ function addEventListenerOnSfElements() {
 }
 function scrollToElement(element) {
   chargerArbre(element);
-  arbre.scrollIntoView({ 
-    behavior: 'smooth' 
+  arbre.scrollIntoView({
+    behavior: 'smooth'
   });
 }
 
@@ -378,7 +379,7 @@ function check(event) {
   var contenu = target.innerHTML;
   if((contenu.length == 1) || (contenu.length == 4)){ // p ou (¬p)
     Materialize.toast('Formule non simplifiable !', 4000) // 4000 is the duration of the toast
-    nbErreur++; // incrémente le nombre d'ereurs 
+    nbErreur++; // incrémente le nombre d'ereurs
     mauvaise_reponse_son();
   }
   else {
@@ -464,27 +465,31 @@ function jouer_musique(mode){
     myAudio.play();
   }else if(mode == stop){
     myAudio.pause();
-    
+
   }
 }
 
 function mauvaise_reponse_son(){
   var mauvaise_reponse_son = new Audio('sounds/wrong.ogg');
+  mauvaise_reponse_son.volume = 0.5;
   mauvaise_reponse_son.play();
 }
 
 function contradiction_son(){
   var contradiction_son = new Audio('sounds/contradiction.ogg');
+  contradiction_son.volume = 0.5;
   contradiction_son.play();
 }
 
 function scroll_son(){
   var scroll_son = new Audio('sounds/scroll.ogg');
+  scroll_son.volume = 0.5;
   scroll_son.play();
 }
 
 function success_son(){
   var success_son = new Audio('sounds/success.ogg');
+  success_son.volume = 0.2;
   success_son.play();
 }
 
